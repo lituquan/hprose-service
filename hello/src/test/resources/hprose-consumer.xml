@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!--服务注册中心连接-->
+	<context:component-scan base-package="org.springframework.remoting.hprose,hprose.hello.server,hprose.register" >
+        <context:exclude-filter type="regex" expression="hprose.register.zookeeper.*" />
+	</context:component-scan>
+	<context:property-placeholder location="classpath:rpc.properties"/>
+	<bean  class="hprose.register.zookeeper.ZooKeeperServiceDiscovery">
+		<constructor-arg name="zkAddress" value="${rpc.registry_address}"/>
+	</bean>
+
+	<bean id="iecho" class="org.springframework.remoting.hprose.HproseClientFactory" factory-method="create">
+		  <constructor-arg value="hprose.hello.server.IEcho"/>
+	</bean>
+</beans>

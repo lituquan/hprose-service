@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+   <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+         <property name="locations">
+        	<list>
+				<value>classpath:rpc.properties</value>
+			</list>
+        </property>
+    </bean>
+	<context:annotation-config/>	  
+   	<context:component-scan base-package="org.springframework.remoting.hprose,hprose.hello.server" />
+
+    <bean id="zkc" class="hprose.register.zookeeper.ZooKeeperServiceRegistry">
+		<constructor-arg name="zkAddress" value="${rpc.registry_address}" />
+	</bean>
+	<!--服务注册中心连接-->
+	<context:component-scan base-package="hprose.hello.server,hprose.register" >
+        <context:exclude-filter type="regex" expression="hprose.register.zookeeper.*" />
+	</context:component-scan>
+	<bean  class="hprose.register.zookeeper.ZooKeeperServiceDiscovery">
+		<constructor-arg name="zkAddress" value="${rpc.registry_address}"/>
+	</bean>
+	<bean id="iecho" class="org.springframework.remoting.hprose.HproseClientFactory" factory-method="create">
+		<constructor-arg value="hprose.hello.server.IEcho1"/>
+	</bean>
+ </beans>

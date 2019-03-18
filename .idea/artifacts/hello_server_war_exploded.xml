@@ -1,0 +1,82 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="hello.server:war exploded">
+    <output-path>$PROJECT_DIR$/hello/target/hello.server-2.0.38</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>hello.server</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="hello.server" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="D:/Java/m2/repository/org/springframework/spring-test/3.2.18.RELEASE/spring-test-3.2.18.RELEASE.jar" output-file-name="spring-test-3.2.18.release.jar" />
+          <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.56" />
+          <element id="archive" name="servlet25-example-0.0.9.jar">
+            <element id="module-output" name="servlet25-example" />
+          </element>
+          <element id="library" level="project" name="Maven: io.zipkin.brave:brave:4.9.1" />
+          <element id="library" level="project" name="Maven: io.zipkin.java:zipkin:2.2.1" />
+          <element id="library" level="project" name="Maven: io.zipkin.reporter2:zipkin-reporter:2.1.3" />
+          <element id="library" level="project" name="Maven: io.zipkin.brave:brave-context-slf4j:4.9.1" />
+          <element id="library" level="project" name="Maven: io.zipkin.reporter2:zipkin-sender-okhttp3:2.1.3" />
+          <element id="library" level="project" name="Maven: com.squareup.okhttp3:okhttp:3.9.0" />
+          <element id="library" level="project" name="Maven: com.squareup.okio:okio:1.13.0" />
+          <element id="library" level="project" name="Maven: io.zipkin.zipkin2:zipkin:2.2.1" />
+          <element id="library" level="project" name="Maven: io.zipkin.brave:brave-instrumentation-okhttp3:4.9.1" />
+          <element id="library" level="project" name="Maven: io.zipkin.brave:brave-instrumentation-http:4.9.1" />
+          <element id="library" level="project" name="Maven: io.zipkin.brave:brave-spancollector-http:4.9.1" />
+          <element id="library" level="project" name="Maven: io.zipkin.brave:brave-core:4.9.1" />
+          <element id="library" level="project" name="Maven: io.zipkin.reporter:zipkin-reporter:1.1.2" />
+          <element id="library" level="project" name="Maven: io.zipkin.brave:brave-instrumentation-servlet:4.9.1" />
+          <element id="library" level="project" name="Maven: io.zipkin.brave:brave-spring-beans:4.9.1" />
+          <element id="library" level="project" name="Maven: io.zipkin.brave:brave-context-log4j2:4.9.1" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.8.2" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.8.2" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-jul:2.8.2" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-jcl:2.8.2" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-slf4j-impl:2.8.2" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.24" />
+          <element id="archive" name="hprose-java-2.0.38.jar">
+            <element id="module-output" name="hprose-java" />
+          </element>
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.7.10" />
+          <element id="library" level="project" name="Maven: org.apache.dubbo:dubbo-common:2.7.0" />
+          <element id="library" level="project" name="Maven: org.javassist:javassist:3.20.0-GA" />
+          <element id="library" level="project" name="Maven: com.alibaba:hessian-lite:3.2.3" />
+          <element id="library" level="project" name="Maven: com.esotericsoftware:kryo:4.0.1" />
+          <element id="library" level="project" name="Maven: com.esotericsoftware:reflectasm:1.11.3" />
+          <element id="library" level="project" name="Maven: org.ow2.asm:asm:5.0.4" />
+          <element id="library" level="project" name="Maven: com.esotericsoftware:minlog:1.3.0" />
+          <element id="library" level="project" name="Maven: org.objenesis:objenesis:2.5.1" />
+          <element id="library" level="project" name="Maven: de.javakaffee:kryo-serializers:0.42" />
+          <element id="library" level="project" name="Maven: de.ruedigermoeller:fst:2.48-jdk-6" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.6" />
+          <element id="library" level="project" name="Maven: com.cedarsoftware:java-util:1.9.0" />
+          <element id="library" level="project" name="Maven: com.cedarsoftware:json-io:2.5.1" />
+          <element id="library" level="project" name="Maven: org.apache.zookeeper:zookeeper:3.4.6" />
+          <element id="library" level="project" name="Maven: log4j:log4j:1.2.16" />
+          <element id="library" level="project" name="Maven: jline:jline:0.9.94" />
+          <element id="library" level="project" name="Maven: io.netty:netty:3.7.0.Final" />
+          <element id="library" level="project" name="Maven: com.101tec:zkclient:0.4" />
+          <element id="file-copy" path="D:/Java/m2/repository/org/springframework/spring-context/3.2.18.RELEASE/spring-context-3.2.18.RELEASE.jar" output-file-name="spring-context-3.2.18.release.jar" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:3.2.18.RELEASE" />
+          <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
+          <element id="file-copy" path="D:/Java/m2/repository/org/springframework/spring-beans/3.2.18.RELEASE/spring-beans-3.2.18.RELEASE.jar" output-file-name="spring-beans-3.2.18.release.jar" />
+          <element id="file-copy" path="D:/Java/m2/repository/org/springframework/spring-web/3.2.18.RELEASE/spring-web-3.2.18.RELEASE.jar" output-file-name="spring-web-3.2.18.release.jar" />
+          <element id="file-copy" path="D:/Java/m2/repository/org/springframework/spring-core/3.2.18.RELEASE/spring-core-3.2.18.RELEASE.jar" output-file-name="spring-core-3.2.18.release.jar" />
+          <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.1.3" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:3.2.18.RELEASE" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/hello/target/hello.server-2.0.38/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="hello.server/web/Web" />
+    </root>
+  </artifact>
+</component>
