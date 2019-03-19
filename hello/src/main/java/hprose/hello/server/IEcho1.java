@@ -12,7 +12,7 @@ public interface IEcho1 {
 	class Client implements IEcho{
 		public String sayHello(String name) {
 			OkhttpHproseClient client3=new OkhttpHproseClient();
-			ServiceDiscovery zooKeeperServiceDiscovery = new ZooKeeperServiceDiscovery("192.168.6.31:31089");
+			ServiceDiscovery zooKeeperServiceDiscovery = new ZooKeeperServiceDiscovery("127.0.0.1:2181");
 			String discover1 = zooKeeperServiceDiscovery.discover(IEcho1.class.getName());
 			IEcho1 iecho = client3.useService(discover1,IEcho1.class);
 			return iecho.sayHello1("中国");

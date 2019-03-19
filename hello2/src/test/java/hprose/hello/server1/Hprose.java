@@ -35,7 +35,7 @@ public class Hprose{
 	public void get(){
 		String discover="http://localhost:8090/hello.server/hprose";
 		OkhttpHproseClient client3=new OkhttpHproseClient();
-		ServiceDiscovery zooKeeperServiceDiscovery = new ZooKeeperServiceDiscovery("192.168.6.31:31089");
+		ServiceDiscovery zooKeeperServiceDiscovery = new ZooKeeperServiceDiscovery("127.0.0.1:2181");
 		String discover1 = zooKeeperServiceDiscovery.discover(IEcho1.class.getName());
 		IEcho1 h = client3.useService(discover1,IEcho1.class);
 		System.out.println(h.sayHello1("11111"));

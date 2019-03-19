@@ -151,8 +151,8 @@
       <find>func</find>
     </findStrings>
     <replaceStrings>
-      <replace>192.168.6.31:31089</replace>
-      <replace>192.168.6.30:30550</replace>
+      <replace>127.0.0.1:2181</replace>
+      <replace>127.0.0.1:9411</replace>
       <replace>OkhttpHproseClient</replace>
       <replace>public</replace>
     </replaceStrings>

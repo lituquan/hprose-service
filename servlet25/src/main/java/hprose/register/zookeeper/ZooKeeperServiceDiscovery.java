@@ -63,7 +63,7 @@ public class ZooKeeperServiceDiscovery implements ServiceDiscovery {
     }
 
     public static void main(String[] args) {
-        ZooKeeperServiceDiscovery zooKeeperServiceDiscovery = new ZooKeeperServiceDiscovery("192.168.6.31:31089");
+        ZooKeeperServiceDiscovery zooKeeperServiceDiscovery = new ZooKeeperServiceDiscovery("127.0.0.1:2181");
         System.out.println(zooKeeperServiceDiscovery.discover("hprose.hello.server.IEcho"));
     }
 }

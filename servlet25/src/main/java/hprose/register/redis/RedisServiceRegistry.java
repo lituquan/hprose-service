@@ -44,7 +44,7 @@ public class RedisServiceRegistry implements ServiceRegistry, ServiceDiscovery {
         jedisClient.close();
     }
     public static void main(String[] args) {
-    	new RedisServiceRegistry("192.168.6.31:31089");
+    	new RedisServiceRegistry("127.0.0.1:2181");
 	}
 
     @Override

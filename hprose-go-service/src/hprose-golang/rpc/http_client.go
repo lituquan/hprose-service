@@ -66,7 +66,7 @@ func SetServiceName(zipkin_address string){
 const (
 	hostPort = "0.0.0.0:0"
 	//zipkinHTTPEndpoint = "http://localhost:9411/api/v1/spans"
-	zipkinHTTPEndpoint = "http://192.168.6.30:30550/api/v1/spans"
+	zipkinHTTPEndpoint = "http://127.0.0.1:9411/api/v1/spans"
 	// Debug mode.
 	debug = false
 	// Base endpoint of our SVC1 service.

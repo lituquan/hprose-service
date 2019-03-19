@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class TraceDemo {
 
     public static Tracing initTracing() {
-        Sender sender = OkHttpSender.create("http://192.168.6.30:30550/api/v2/spans");
+        Sender sender = OkHttpSender.create("http://127.0.0.1:9411/api/v2/spans");
         AsyncReporter asyncReporter = AsyncReporter.builder(sender)
                 .closeTimeout(500, TimeUnit.MILLISECONDS)
                 .build(SpanBytesEncoder.JSON_V2);

@@ -43,6 +43,6 @@ public class ZooKeeperServiceRegistry implements ServiceRegistry {
         LOGGER.debug("create address node: {}", addressNode);
     }
     public static void main(String[] args) {
-    	new ZooKeeperServiceRegistry("192.168.6.31:31089");
+    	new ZooKeeperServiceRegistry("127.0.0.1:2181");
 	}
 }

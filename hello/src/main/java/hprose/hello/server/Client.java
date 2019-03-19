@@ -21,7 +21,7 @@ public class Client implements IEcho1{
 	public static void main(String[] args) throws Throwable{
 		String discover="http://localhost:8090/hello.server/hprose";
 		OkhttpHproseClient client3=new OkhttpHproseClient();
-		ServiceDiscovery zooKeeperServiceDiscovery = new ZooKeeperServiceDiscovery("192.168.6.31:31089");
+		ServiceDiscovery zooKeeperServiceDiscovery = new ZooKeeperServiceDiscovery("127.0.0.1:2181");
 		String discover1 = zooKeeperServiceDiscovery.discover(IEcho1.class.getName());
 		IEcho1 h = client3.useService(discover1,IEcho1.class);
 		System.out.println(h.sayHello1("11111"));
@@ -38,7 +38,7 @@ public class Client implements IEcho1{
 	}
 	
 	public static HttpTracing getHttptracing(){
-		Sender sender = OkHttpSender.create("http://192.168.6.30:30550/api/v2/spans");
+		Sender sender = OkHttpSender.create("http://127.0.0.1:9411/api/v2/spans");
 		AsyncReporter asyncReporter = AsyncReporter.builder(sender).closeTimeout(500, TimeUnit.MILLISECONDS)
 				.build(SpanBytesEncoder.JSON_V2);
 

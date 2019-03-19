@@ -11,7 +11,7 @@ import (
 	"net"
 )
 var helloService=new(server.IEcho)
-var zookeeper_address="192.168.6.31:31089"
+var zookeeper_address="127.0.0.1:2181"
 
 func GetIntranetIp() string{
 	addrs, err := net.InterfaceAddrs()
