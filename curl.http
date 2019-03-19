@@ -1,0 +1,29 @@
+### 使用vscode restclient 插件 或者goland 打开
+
+###
+POST http://localhost:8090/hello.server/hprose 
+Content-Type: application/hprose
+
+Cs8"sayHello"a1{s5"11111"}z
+###
+POST http://localhost:8091/hello.server2/hprose 
+Content-Type: application/hprose
+
+Cs9"sayHello1"a1{s5"11111"}z
+###
+POST http://localhost:8092/hello.server3/hprose 
+Content-Type: application/hprose
+
+Cs8"sayHello"a1{s5"11111"}z
+###
+POST http://localhost:8093/hello.server4/hprose 
+Content-Type: application/hprose
+
+Cs9"sayHello1"a1{s5"11111"}z
+
+
+###
+POST http://localhost:8095
+Content-Type: application/hprose
+
+Cs11"sayHello111"a1{s5"11111"}z

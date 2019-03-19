@@ -179,7 +179,7 @@
 		<repository>
 			<id>nexus-releases</id>
 			<name>releases</name>
-			<url>http://192.168.6.10:8880/repository/maven-releases</url>
+			<url>http://localhost:8880/repository/maven-releases</url>
 		</repository>
 	</distributionManagement>
 </project>
