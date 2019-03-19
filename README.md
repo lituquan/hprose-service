@@ -13,3 +13,5 @@ hprose 是一个跨语言rpc 框架。提供了发布服务、调用服务功能
   参考https://gitee.com/mozhu/zipkin-learning.git
   由于参考的接口主要是基于OKhttp调用，所以不使用hprose-java的HproseHttpClient。
   （HproseHttpClient + Filter传递上下文还没调通）
+
+hprose 的拦截器比较难获取http.request  http.response对象。所以采用比较极端的方式，直接重写服务响应和客户端的请求部分。
