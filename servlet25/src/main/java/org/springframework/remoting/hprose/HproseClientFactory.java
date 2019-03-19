@@ -2,8 +2,6 @@ package org.springframework.remoting.hprose;
 
 import hprose.register.ServiceDiscovery;
 import org.springframework.beans.BeansException;
-import org.springframework.remoting.hprose.HproseProxyFactoryBean;
-import org.springframework.remoting.hprose.SpringContextUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

@@ -1,9 +1,10 @@
 package hprose.register.zookeeper;
 
+import hprose.register.ServiceRegistry;
 import org.I0Itec.zkclient.ZkClient;
+import org.I0Itec.zkclient.serialize.BytesPushThroughSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import  hprose.register.ServiceRegistry;
 /**
  * 基于 ZooKeeper 的服务注册接口实现
  *
@@ -18,7 +19,7 @@ public class ZooKeeperServiceRegistry implements ServiceRegistry {
 
     public ZooKeeperServiceRegistry(String zkAddress) {
         // 创建 ZooKeeper 客户端
-        zkClient = new ZkClient(zkAddress, Constant.ZK_SESSION_TIMEOUT, Constant.ZK_CONNECTION_TIMEOUT);
+        zkClient = new ZkClient(zkAddress, Constant.ZK_SESSION_TIMEOUT, Constant.ZK_CONNECTION_TIMEOUT,new BytesPushThroughSerializer());
         LOGGER.debug("connect zookeeper");
     }
 
@@ -38,7 +39,7 @@ public class ZooKeeperServiceRegistry implements ServiceRegistry {
         }
         // 创建 address 节点（临时）
         String addressPath = servicePath + "/address-";
-        String addressNode = zkClient.createEphemeralSequential(addressPath, serviceAddress);
+        String addressNode = zkClient.createEphemeralSequential(addressPath, serviceAddress.getBytes());
         LOGGER.debug("create address node: {}", addressNode);
     }
     public static void main(String[] args) {

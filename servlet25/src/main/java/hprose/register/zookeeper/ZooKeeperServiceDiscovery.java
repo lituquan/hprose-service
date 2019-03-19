@@ -2,6 +2,7 @@ package hprose.register.zookeeper;
 
 import hprose.register.ServiceDiscovery;
 import org.I0Itec.zkclient.ZkClient;
+import org.I0Itec.zkclient.serialize.BytesPushThroughSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +29,7 @@ public class ZooKeeperServiceDiscovery implements ServiceDiscovery {
     @Override
     public String discover(String name) {
         // 创建 ZooKeeper 客户端
-        ZkClient zkClient = new ZkClient(zkAddress, Constant.ZK_SESSION_TIMEOUT, Constant.ZK_CONNECTION_TIMEOUT);
+        ZkClient zkClient = new ZkClient(zkAddress, Constant.ZK_SESSION_TIMEOUT, Constant.ZK_CONNECTION_TIMEOUT,new BytesPushThroughSerializer());
         LOGGER.debug("connect zookeeper");
         try {
             // 获取 service 节点
@@ -54,9 +55,15 @@ public class ZooKeeperServiceDiscovery implements ServiceDiscovery {
             }
             // 获取 address 节点的值
             String addressPath = servicePath + "/" + address;
-            return zkClient.readData(addressPath);
+            byte[] data=zkClient.readData(addressPath);
+            return new String(data);
         } finally {
             zkClient.close();
         }
+    }
+
+    public static void main(String[] args) {
+        ZooKeeperServiceDiscovery zooKeeperServiceDiscovery = new ZooKeeperServiceDiscovery("192.168.6.31:31089");
+        System.out.println(zooKeeperServiceDiscovery.discover("hprose.hello.server.IEcho"));
     }
 }
