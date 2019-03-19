@@ -27,8 +27,4 @@
 	<bean  class="hprose.register.zookeeper.ZooKeeperServiceDiscovery">
 		<constructor-arg name="zkAddress" value="${rpc.registry_address}"/>
 	</bean>
-
-	<!--<bean id="iecho" class="hprose.register.HproseClientFactory" factory-method="create">
-		  <constructor-arg value="hprose.hello.server.IEcho"/>
-	</bean>-->
  </beans>

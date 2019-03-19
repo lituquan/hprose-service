@@ -1,6 +1,7 @@
 package hprose.hello.server1;
 
 import hprose.hello.server.IEcho2;
+import hprose.hello.server.go.IEcho;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,9 @@ import java.util.logging.Logger;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:hprose-consumer.xml"})
 @TestExecutionListeners(
-		{ 
-			DependencyInjectionTestExecutionListener.class,
-			DirtiesContextTestExecutionListener.class 
+		{
+				DependencyInjectionTestExecutionListener.class,
+				DirtiesContextTestExecutionListener.class
 		})
 public class Hprose {
 	Logger logger = Logger.getLogger(Hprose.class.getName());
@@ -30,8 +31,10 @@ public class Hprose {
 
 	@Autowired
 	IEcho2 h;
+	@Autowired
+	IEcho hello;
 	@Test
 	public void get(){
-		System.out.println(h.sayHello("11111"));
+		System.out.println(hello.sayHello111("11111"));
 	}
 }

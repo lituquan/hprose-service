@@ -19,4 +19,7 @@
 	<bean id="iecho" class="org.springframework.remoting.hprose.HproseClientFactory" factory-method="create">
 		<constructor-arg value="hprose.hello.server.IEcho2"/>
 	</bean>
+	<bean  class="org.springframework.remoting.hprose.HproseClientFactory" factory-method="create">
+		<constructor-arg value="hprose.hello.server.go.IEcho"/>
+	</bean>
 </beans>

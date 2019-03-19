@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 @RpcService(IEcho3.class)
 public class Client implements IEcho3{
 
-	@Resource(name="iecho")
+	@Resource
 	IEcho2 iecho;
 
 	public String sayHello1(String name) {
