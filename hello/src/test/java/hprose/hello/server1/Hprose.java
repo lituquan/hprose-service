@@ -29,19 +29,12 @@ public class Hprose{
 	Logger logger = Logger.getLogger(Hprose.class.getName());
 	Logger log=logger;
 
-	@Resource()
+	@Resource
 	IEcho iecho;
 
 	@Test
 	public void get(){
 		System.out.println(iecho.sayHello("111"));
 	}
-	//工程名
-	@Value("${rpc.path}")
-	private String path = null;
-	//工程名
-	@Value("${rpc.trace.path}")
-	private String trace_path = null;
-	
 
 }

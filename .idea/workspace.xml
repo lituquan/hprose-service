@@ -132,7 +132,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>192.168.6.30\:30550</find>
+      <find>127.0.0.1:9411</find>
       <find>getExchange</find>
       <find>client</find>
       <find>afterPropertiesSet</find>

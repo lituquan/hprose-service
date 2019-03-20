@@ -7,52 +7,27 @@
 	<artifactId>hello.server</artifactId>
 	<version>2.0.38</version>
 	<packaging>war</packaging>
-
-	<name>HelloServer</name>
+	<name>${project.artifactId}</name>
 
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<version.slf4j>1.7.10</version.slf4j>
-		<version.zookeeper>3.4.6</version.zookeeper>
-		<version.zkclient>0.4</version.zkclient>
 		<spring.version>3.2.18.release</spring.version>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>1.2.56</version>
-		</dependency>
         <dependency>
-            <groupId>org.mozhu.zipkin</groupId>
-            <artifactId>servlet25-example</artifactId>
-            <version>0.0.9</version>
+			<groupId>com.yondor.commons</groupId>
+			<artifactId>hprose-service</artifactId>
+			<version>0.0.9</version>
         </dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-expression -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-expression</artifactId>
-			<version>3.2.18.RELEASE</version>
-		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

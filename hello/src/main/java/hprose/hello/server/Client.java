@@ -4,8 +4,8 @@ import brave.Tracing;
 import brave.context.log4j2.ThreadContextCurrentTraceContext;
 import brave.http.HttpTracing;
 import org.springframework.remoting.hprose.OkhttpHproseClient;
-import hprose.register.ServiceDiscovery;
-import hprose.register.zookeeper.ZooKeeperServiceDiscovery;
+import hprose.register.ServiceRegistry;
+import hprose.register.zookeeper.ZooKeeperServiceRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import zipkin2.codec.SpanBytesEncoder;
 import zipkin2.reporter.AsyncReporter;
@@ -21,8 +21,8 @@ public class Client implements IEcho1{
 	public static void main(String[] args) throws Throwable{
 		String discover="http://localhost:8090/hello.server/hprose";
 		OkhttpHproseClient client3=new OkhttpHproseClient();
-		ServiceDiscovery zooKeeperServiceDiscovery = new ZooKeeperServiceDiscovery("127.0.0.1:2181");
-		String discover1 = zooKeeperServiceDiscovery.discover(IEcho1.class.getName());
+		ServiceRegistry zooKeeperServiceRegistry = new ZooKeeperServiceRegistry("127.0.0.1:2181");
+		String discover1 = zooKeeperServiceRegistry.discover(IEcho1.class.getName());
 		IEcho1 h = client3.useService(discover1,IEcho1.class);
 		System.out.println(h.sayHello1("11111"));
 	}

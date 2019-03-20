@@ -26,4 +26,4 @@ Cs9"sayHello1"a1{s5"11111"}z
 POST http://localhost:8095
 Content-Type: application/hprose
 
-Cs11"sayHello111"a1{s5"11111"}z
+Cs8"sayHello"a1{s5"11111"}z

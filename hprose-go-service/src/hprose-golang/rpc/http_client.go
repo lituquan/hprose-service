@@ -26,16 +26,16 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 
-	hio "github.com/hprose/hprose-golang/io"
-	"github.com/openzipkin-contrib/zipkin-go-opentracing/examples/middleware"
 	"context"
-	"github.com/opentracing/opentracing-go"
-	zipkin "github.com/openzipkin-contrib/zipkin-go-opentracing"
-	. "github.com/hprose/hprose-golang/rpc"
-	"hprose-golang/register/zookeeper"
-	"reflect"
 	"fmt"
 	"os"
+	"reflect"
+
+	hio "github.com/hprose/hprose-golang/io"
+	. "github.com/hprose/hprose-golang/rpc"
+	"github.com/opentracing/opentracing-go"
+	zipkin "github.com/openzipkin-contrib/zipkin-go-opentracing"
+	"github.com/openzipkin-contrib/zipkin-go-opentracing/examples/middleware"
 )
 
 var cookieJar, _ = cookiejar.New(nil)
@@ -48,21 +48,23 @@ var allSchemes = []string{"http", "https", "tcp", "tcp4", "tcp6", "unix", "ws", 
 type OkHTTPClient struct {
 	BaseClient
 	http.Transport
-	Header     http.Header
-	httpClient http.Client
-	limiter    Limiter
+	Header       http.Header
+	httpClient   http.Client
+	limiter      Limiter
 	Tracer       opentracing.Tracer
 	TraceRequest middleware.RequestFunc
-	uri string
+	uri          string
 }
-var serviceName = "go-hprose"
 
-func GetServiceName() string{
+var serviceName = "go-111"
+
+func GetServiceName() string {
 	return serviceName
 }
-func SetServiceName(zipkin_address string){
-	serviceName=zipkin_address
+func SetServiceName(zipkin_address string) {
+	serviceName = zipkin_address
 }
+
 const (
 	hostPort = "0.0.0.0:0"
 	//zipkinHTTPEndpoint = "http://localhost:9411/api/v1/spans"
@@ -169,22 +171,22 @@ func (client *OkHTTPClient) unlimit() {
 }
 func (client *OkHTTPClient) sendAndReceive(
 	data []byte, context1 *ClientContext) ([]byte, error) {
-	client.Tracer=opentracing.GlobalTracer()
-	client.TraceRequest=middleware.ToHTTPRequest(client.Tracer)
+	client.Tracer = opentracing.GlobalTracer()
+	client.TraceRequest = middleware.ToHTTPRequest(client.Tracer)
 	client.limit()
 	defer client.unlimit()
 	//跟踪
-	inst:=context1.Get("zipkinSpan")
-	span,ok:=inst.(opentracing.Span)
-	if !ok{
+	inst := context1.Get("zipkinSpan")
+	span, ok := inst.(opentracing.Span)
+	if !ok {
 		panic("span 不存在")
 	}
-	inst=context1.Get("zipkinCtx")
-	ctx,_:=inst.(context.Context)
-	span.LogEvent("Call "+string(data))
+	inst = context1.Get("zipkinCtx")
+	ctx, _ := inst.(context.Context)
+	span.LogEvent("Call " + string(data))
 	defer span.Finish()
-	url:=client.BaseClient.URIList()[0]
-	fmt.Println("url "+url)
+	url := client.BaseClient.URIList()[0]
+	fmt.Println("url " + url)
 	req, err := http.NewRequest("POST", url, hio.NewByteReader(data))
 	if err != nil {
 		return nil, err
@@ -215,28 +217,23 @@ func (client *OkHTTPClient) sendAndReceive(
 	data, err = ioutil.ReadAll(resp.Body)
 	if err == nil {
 		err = resp.Body.Close()
-	}else{
+	} else {
 		span.SetTag("error", err.Error())
 		return nil, err
 	}
 	return data, err
 }
 
-var Zkaddress=""
-func InitRegister(zkaddress string){
-	Zkaddress=zkaddress
-}
-func Create(service interface{}) (client *OkHTTPClient){
-	v:=reflect.ValueOf(service).Elem()
+func Create(service interface{}) (client *OkHTTPClient) {
+	v := reflect.ValueOf(service).Elem()
 	mv := v.MethodByName("ServiceName")
-	results:=mv.Call(nil)
-	serviceName:=results[0].String()
-	discovery:=zookeeper.GetZooKeeperServiceDiscovery(Zkaddress)
-	address,err:=discovery.Discover(serviceName)
-	if err!=nil{
+	results := mv.Call(nil)
+	serviceName := results[0].String()
+	address, err := register.Discover(serviceName)
+	if err != nil {
 		fmt.Println(err.Error())
 	}
-	fmt.Println(	"address  "+address)
+	fmt.Println("address  " + address)
 	client = NewOkHTTPClient(address)
 	client.SendAndReceive = client.sendAndReceive
 	client.UseService(service)
@@ -244,13 +241,15 @@ func Create(service interface{}) (client *OkHTTPClient){
 	client.AddFilter(new(LogFilter))
 	return client
 }
+var default_collector zipkin.Collector
 
-func InitZipkin() (zipkin.Collector,opentracing.Tracer){
+func InitZipkin() (zipkin.Collector, opentracing.Tracer) {
 	collector, err := zipkin.NewHTTPCollector(zipkinHTTPEndpoint)
 	if err != nil {
 		fmt.Printf("unable to create Zipkin HTTP collector: %+v\n", err)
 		os.Exit(-1)
 	}
+	default_collector=collector
 	recorder := zipkin.NewRecorder(collector, debug, hostPort, serviceName)
 	tracer, err := zipkin.NewTracer(
 		recorder,
@@ -262,9 +261,8 @@ func InitZipkin() (zipkin.Collector,opentracing.Tracer){
 		os.Exit(-1)
 	}
 	opentracing.InitGlobalTracer(tracer)
-	return collector,tracer
+	return collector, tracer
 }
-
 
 // LogFilter ...
 type LogFilter struct {
@@ -274,29 +272,21 @@ type LogFilter struct {
 // InputFilter ...
 func (lf LogFilter) InputFilter(data []byte, context1 Context) []byte {
 	fmt.Printf("%v: %s\r\n", lf.Prompt, data)
-	inst:=context1.Get("collector")
-	collector,ok:=inst.(zipkin.Collector)
-	if !ok{
-		panic("collector 不存在")
-	}
-	inst=context1.Get("zipkinSpan")
-	span,ok:=inst.(opentracing.Span)
-	if !ok{
+	inst := context1.Get("zipkinSpan")
+	span, ok := inst.(opentracing.Span)
+	if !ok {
 		panic("span 不存在")
 	}
 	span.Finish()
-	collector.Close()
 	return data
 }
 
 // OutputFilter ...
 func (lf LogFilter) OutputFilter(data []byte, context1 Context) []byte {
 	fmt.Printf("%v: %s\r\n", lf.Prompt, data)
-	collector,_:=InitZipkin()
 	span := opentracing.StartSpan("Run")
 	ctx := opentracing.ContextWithSpan(context.Background(), span)
-	context1.Set("zipkinCtx",ctx)
-	context1.Set("zipkinSpan",span)
-	context1.Set("collector",collector)
+	context1.Set("zipkinCtx", ctx)
+	context1.Set("zipkinSpan", span)
 	return data
 }

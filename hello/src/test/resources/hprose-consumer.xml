@@ -8,15 +8,14 @@
      http://www.springframework.org/schema/context
      http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-	<!--服务注册中心连接-->
-	<context:component-scan base-package="org.springframework.remoting.hprose,hprose.hello.server,hprose.register" >
-        <context:exclude-filter type="regex" expression="hprose.register.zookeeper.*" />
-	</context:component-scan>
-	<context:property-placeholder location="classpath:rpc.properties"/>
-	<bean  class="hprose.register.zookeeper.ZooKeeperServiceDiscovery">
-		<constructor-arg name="zkAddress" value="${rpc.registry_address}"/>
+	<context:annotation-config/>	  
+    <!--服务注册中心-->
+    <context:property-placeholder location="classpath:rpc.properties"/>
+   	<context:component-scan base-package="org.springframework.remoting.hprose" />
+	<bean class="hprose.register.zookeeper.ZooKeeperServiceRegistry">
+		<constructor-arg value="${rpc.registry_address}"/>
 	</bean>
-
+	<!--服务扫描自动装配client对象-->
 	<bean id="iecho" class="org.springframework.remoting.hprose.HproseClientFactory" factory-method="create">
 		  <constructor-arg value="hprose.hello.server.IEcho"/>
 	</bean>

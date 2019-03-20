@@ -2,9 +2,11 @@ package zookeeper
 
 import (
 	"fmt"
+	"log"
+
+	"time"
 
 	"github.com/samuel/go-zookeeper/zk"
-	"time"
 )
 
 const ZK_SESSION_TIMEOUT = 5000
@@ -18,7 +20,7 @@ const ZK_REGISTRY_PATH = "/registry"
  * @since 1.0.0
  */
 type ZooKeeperServiceRegistry struct {
-	ZkClient *zk.Conn
+	conn *zk.Conn
 }
 
 //获取zk连接
@@ -30,17 +32,41 @@ func GetZooKeeperServiceRegistry(zkAddress string) *ZooKeeperServiceRegistry {
 	return &ZooKeeperServiceRegistry{c}
 }
 
+func (s *ZooKeeperServiceRegistry) Discover(name string) (string, error) {
+	path := ZK_REGISTRY_PATH + "/" + name
+	// 获取字节点名称
+	childs, _, err := s.conn.Children(path)
+	if err != nil || len(childs) == 0 {
+		if err == zk.ErrNoNode {
+			return "", nil
+		}
+		log.Println(err)
+		return "", err
+	}
+	index := 0
+	//if len(childs)>1{
+	//	index=rand.Intn(len(childs))
+	//}
+	fullPath := path + "/" + childs[index]
+	data, _, err := s.conn.Get(fullPath)
+	if err != nil {
+		panic(err)
+	}
+	node := string(data)
+	return node, nil
+}
+
 func (this *ZooKeeperServiceRegistry) Register(serviceName, serviceAddress string) error {
 	// 创建 registry 节点（持久）
 	registryPath := ZK_REGISTRY_PATH
-	zkClient := this.ZkClient
-	exist, _, err := zkClient.Exists(registryPath)
+	conn := this.conn
+	exist, _, err := conn.Exists(registryPath)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
 	if !exist {
-		err = ensureRoot(zkClient)
+		err = ensureRoot(conn)
 		if err != nil {
 			fmt.Println(err)
 			return err
@@ -48,18 +74,18 @@ func (this *ZooKeeperServiceRegistry) Register(serviceName, serviceAddress strin
 	}
 	// 创建 service 节点（持久）
 	servicePath := registryPath + "/" + serviceName
-	exist, _, err = zkClient.Exists(servicePath)
+	exist, _, err = conn.Exists(servicePath)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
-	if err := ensureName(servicePath, zkClient); err != nil {
+	if err := ensureName(servicePath, conn); err != nil {
 		return err
 	}
 	// 创建 address 节点（临时）
 	addressPath := servicePath + "/address-"
 	data := serviceAddress
-	_, err = zkClient.CreateProtectedEphemeralSequential(addressPath, []byte(data), zk.WorldACL(zk.PermAll))
+	_, err = conn.CreateProtectedEphemeralSequential(addressPath, []byte(data), zk.WorldACL(zk.PermAll))
 	return err
 }
 

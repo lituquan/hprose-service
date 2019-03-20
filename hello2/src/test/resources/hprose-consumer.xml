@@ -13,7 +13,7 @@
         <context:exclude-filter type="regex" expression="hprose.register.zookeeper.*" />
 	</context:component-scan>
 	<context:property-placeholder location="classpath:rpc.properties"/>
-	<bean  class="hprose.register.zookeeper.ZooKeeperServiceDiscovery">
+	<bean  class="hprose.register.zookeeper.ZooKeeperServiceRegistry">
 		<constructor-arg name="zkAddress" value="${rpc.registry_address}"/>
 	</bean>
 
