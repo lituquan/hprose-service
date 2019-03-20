@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.mozhu.zipkin</groupId>
-	<artifactId>servlet25-example</artifactId>
+	<groupId>com.yondor.commons</groupId>
+	<artifactId>hprose-service</artifactId>
 	<version>0.0.9</version>
 	<packaging>jar</packaging>
-	<name>servlet25-example</name>
-	<description>Zipkin Servlet2.5 example</description>
+	<name>${project.artifactId}</name>
+	<description>hprose in spring with zookeeper and zinkin</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -135,6 +135,17 @@
 			<artifactId>log4j-slf4j-impl</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
+			<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -175,11 +186,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<distributionManagement>
-		<repository>
-			<id>nexus-releases</id>
-			<name>releases</name>
-			<url>http://localhost:8880/repository/maven-releases</url>
-		</repository>
-	</distributionManagement>
 </project>

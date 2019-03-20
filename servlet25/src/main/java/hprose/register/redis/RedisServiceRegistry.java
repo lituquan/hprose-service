@@ -1,25 +1,28 @@
 package hprose.register.redis;
 
-import hprose.register.ServiceDiscovery;
+import hprose.config.annotation.RpcService;
 import hprose.register.ServiceRegistry;
 import hprose.register.zookeeper.Constant;
 import hprose.register.zookeeper.ZooKeeperServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 /**
- * 基于 ZooKeeper 的服务注册接口实现
+ * 基于 Redis 的服务注册接口实现
  *
  * @author huangyong
  * @since 1.0.0
  */
-public class RedisServiceRegistry implements ServiceRegistry, ServiceDiscovery {
+public class RedisServiceRegistry implements ServiceRegistry {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ZooKeeperServiceRegistry.class);
 
     private JedisPool jedisPool;
+
     public RedisServiceRegistry(String zkAddress) {
         // 创建 ZooKeeper 客户端
         try  {
@@ -44,7 +47,7 @@ public class RedisServiceRegistry implements ServiceRegistry, ServiceDiscovery {
         jedisClient.close();
     }
     public static void main(String[] args) {
-    	new RedisServiceRegistry("127.0.0.1:2181");
+    	new RedisServiceRegistry("192.168.6.31:31089");
 	}
 
     @Override

@@ -27,7 +27,7 @@ import hprose.common.FilterHandler;
 import hprose.common.HproseFilter;
 import hprose.common.InvokeHandler;
 import hprose.io.HproseMode;
-import hprose.register.ServiceDiscovery;
+import hprose.register.ServiceRegistry;
 
 public class HproseProxyFactoryBean extends UrlBasedRemoteAccessor{
 
@@ -45,7 +45,7 @@ public class HproseProxyFactoryBean extends UrlBasedRemoteAccessor{
     private InvokeHandler invokeHandler = null;
     private FilterHandler beforeFilterHandler = null;
     private FilterHandler afterFilterHandler = null;
-    private ServiceDiscovery discovery = null ;
+    private ServiceRegistry discovery = null ;
     
     @Override
     public void afterPropertiesSet() {
@@ -146,11 +146,11 @@ public class HproseProxyFactoryBean extends UrlBasedRemoteAccessor{
         return client.useService(getServiceInterface());
     }
     
-    public ServiceDiscovery getDiscovery() {
+    public ServiceRegistry getDiscovery() {
 		return discovery;
 	}
 
-	public void setDiscovery(ServiceDiscovery discovery) {
+	public void setDiscovery(ServiceRegistry discovery) {
 		this.discovery = discovery;
 	}
 

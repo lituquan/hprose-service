@@ -4,7 +4,6 @@ import brave.Tracing;
 import brave.context.log4j2.ThreadContextCurrentTraceContext;
 import brave.http.HttpTracing;
 import hprose.config.annotation.RpcService;
-import hprose.register.ServiceDiscovery;
 import hprose.register.ServiceRegistry;
 import org.apache.dubbo.common.utils.NetUtils;
 import org.springframework.beans.BeansException;
@@ -166,7 +165,7 @@ public class SpringContextUtil implements ApplicationContextAware {
 		try {
 			handlerMap=getServiceMap();
 			if(handlerMap.size()>0){
-                registry=(ServiceRegistry) getBean(ServiceRegistry.class);
+                registry= getBean(ServiceRegistry.class);
                 String address=getServiceUrl();
                 Iterator<String> iterator = handlerMap.keySet().iterator();
                 while(iterator.hasNext()){
@@ -193,10 +192,10 @@ public class SpringContextUtil implements ApplicationContextAware {
     }
 
     public  Object getReference(Class clazz) throws Exception{
-        HproseProxyFactoryBean factory= (HproseProxyFactoryBean) getBean(HproseProxyFactoryBean.class);
+        HproseProxyFactoryBean factory= getBean(HproseProxyFactoryBean.class);
         if(factory==null){
             factory=new HproseProxyFactoryBean();
-            ServiceDiscovery discovery= (ServiceDiscovery) getBean(ServiceDiscovery.class);
+            ServiceRegistry discovery= getBean(ServiceRegistry.class);
             if(discovery==null){
                 throw new Exception("no discovery");
             }
