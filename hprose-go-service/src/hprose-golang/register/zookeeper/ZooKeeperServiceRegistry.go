@@ -22,17 +22,23 @@ const ZK_REGISTRY_PATH = "/registry"
 type ZooKeeperServiceRegistry struct {
 	conn *zk.Conn
 }
-
+var ZKADDRESS =""
 //获取zk连接
 func GetZooKeeperServiceRegistry(zkAddress string) *ZooKeeperServiceRegistry {
 	c, _, err := zk.Connect([]string{zkAddress}, ZK_CONNECTION_TIMEOUT*time.Millisecond) //*10)
 	if err != nil {
 		panic(err)
 	}
+	ZKADDRESS=zkAddress
 	return &ZooKeeperServiceRegistry{c}
 }
 
 func (s *ZooKeeperServiceRegistry) Discover(name string) (string, error) {
+	c, _, err := zk.Connect([]string{ZKADDRESS}, ZK_CONNECTION_TIMEOUT*time.Millisecond) //*10)
+	if err != nil {
+		panic(err)
+	}
+	s.conn=c
 	path := ZK_REGISTRY_PATH + "/" + name
 	// 获取字节点名称
 	childs, _, err := s.conn.Children(path)
