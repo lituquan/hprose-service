@@ -9,14 +9,14 @@ hprose 是一个跨语言rpc 框架。提供了发布服务、调用服务功能
   java参考https://gitee.com/huangyong/rpc.git
   
   注意：因为zkclient 默认序列化不是直接转byte的,要设置为BytesPushThroughSerializer。
-  
+  ----
   go 参考 https://www.v2ex.com/t/440662
 ----  
 服务调用跟踪使用zipkin
   
   java参考https://gitee.com/mozhu/zipkin-learning.git
     由于参考的接口主要是基于OKhttp调用，所以不使用hprose-java的HproseHttpClient。
-  
+  ----
   go 参考 https://github.com/openzipkin-contrib/zipkin-go-opentracing/tree/master/examples
 ----
 hprose 的拦截器默认传递的是报文,比较难获取http.request  http.response对象。
