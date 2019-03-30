@@ -192,7 +192,7 @@ func (service *OkHTTPService) ServeHTTP(
 	}
 
 	// create span
-	operationName := serviceName
+	operationName := service_name
 	span := tracer.StartSpan(operationName, ext.RPCServerOption(wireContext))
 	defer span.Finish()
 

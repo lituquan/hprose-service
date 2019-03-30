@@ -19,7 +19,7 @@ func StartRegister(serviceObj interface{}, port string) {
 	mv := v.MethodByName("ServiceName")
 	results := mv.Call(nil)
 	serviceName := results[0].String()
-	addr := fmt.Sprintf("http://"+getIntranetIp()+":%s", port)
+	addr := fmt.Sprintf("http://"+service_name)
 	err := register.Register(serviceName, addr)
 	if err != nil {
 		panic(err)

@@ -36,6 +36,7 @@ import (
 	"github.com/opentracing/opentracing-go"
 	zipkin "github.com/openzipkin-contrib/zipkin-go-opentracing"
 	"github.com/openzipkin-contrib/zipkin-go-opentracing/examples/middleware"
+	"log"
 )
 
 var cookieJar, _ = cookiejar.New(nil)
@@ -56,10 +57,10 @@ type OkHTTPClient struct {
 	uri          string
 }
 
-var serviceName = "go-111"
+var service_name = "go-111"
 
-func SetServiceName(service_name,zipkin_address string) {
-	serviceName = service_name
+func SetServiceName(name,zipkin_address string) {
+	service_name = name
 	zipkinHTTPEndpoint= zipkin_address
 }
 
@@ -198,6 +199,7 @@ func (client *OkHTTPClient) sendAndReceive(
 	req = traceRequest(req.WithContext(ctx))
 	resp, err := client.httpClient.Do(req)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	context1.Set("httpHeader", resp.Header)
@@ -235,7 +237,7 @@ func InitZipkin() (zipkin.Collector, opentracing.Tracer) {
 		fmt.Printf("unable to create Zipkin HTTP collector: %+v\n", err)
 		os.Exit(-1)
 	}
-	recorder := zipkin.NewRecorder(collector, debug, hostPort, serviceName)
+	recorder := zipkin.NewRecorder(collector, debug, hostPort, service_name)
 	tracer, err := zipkin.NewTracer(
 		recorder,
 		zipkin.ClientServerSameSpan(sameSpan),

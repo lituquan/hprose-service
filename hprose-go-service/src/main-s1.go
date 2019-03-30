@@ -4,6 +4,7 @@ import (
 	"hprose-golang/rpc"
 	"hprose/hello/server"
 	"net/http"
+	"time"
 )
 
 const  (
@@ -12,18 +13,20 @@ const  (
 )
 var (
 	helloService       = new(server.IEcho)
-	service_name       = "service111"
+	service_name       = "127.0.0.1:8095"
 	port               = "8095"
 )
 
 func SayHello(name string) string {
-	return helloService.SayHello("world")
+	//return helloService.SayHello("world")
+	time.Sleep(1*time.Second)
+	return "2222"
 }
 func main() {
 	//初始化zipkin、zookeeper、远程服务对象
 	rpc.SetServiceName(service_name, zipkinHTTPEndpoint)
 	rpc.InitRegister(zookeeper_address)
-	rpc.Create(&helloService)
+	//rpc.Create(&helloService)
 	//建立服务对象
 	service := rpc.CreateHTTPService()
 	serviceObj := &server.Hello{ //实现接口

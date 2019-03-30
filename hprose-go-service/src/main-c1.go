@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"hprose-golang/rpc"
 	"hprose/hello/server"
+	"github.com/afex/hystrix-go/hystrix"
+	"net/http"
+	"net"
 )
 
 const (
@@ -18,8 +21,25 @@ var (
 )
 
 func main() {
-	rpc.SetServiceName(service_name, zipkinHTTPEndpoint)
-	rpc.InitRegister(zookeeper_address)
-	rpc.Create(&helloService)
-	fmt.Println(helloService.SayHello("1111"))
+	hystrix.ConfigureCommand("my_command", hystrix.CommandConfig{
+		Timeout:               1000,
+		MaxConcurrentRequests: 100,
+		ErrorPercentThreshold: 25,
+	})
+
+	output := make(chan string, 1)
+	errors := hystrix.Go("my_command", func() error {
+		rpc.SetServiceName(service_name, zipkinHTTPEndpoint)
+		rpc.InitRegister(zookeeper_address)
+		rpc.Create(&helloService)
+		output <- helloService.SayHello("123")
+		return nil
+	}, nil)
+
+	select {
+	case out := <-output:
+		fmt.Println(out)
+	case err := <-errors:
+		fmt.Println("get an error, handle it"+err.Error())
+	}
 }
