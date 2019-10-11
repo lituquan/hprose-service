@@ -1,11 +1,15 @@
 package main
 
 import (
+	"github.com/afex/hystrix-go/hystrix"
+	hrpc "github.com/hprose/hprose-golang/rpc"
+	"github.com/opentracing/opentracing-go"
+	"github.com/openzipkin-contrib/zipkin-go-opentracing/examples/middleware"
 	"hprose-golang/rpc"
 	"hprose/hello/server"
-	"net/http"
-	"github.com/afex/hystrix-go/hystrix"
+	"log"
 	"net"
+	"net/http"
 )
 
 const  (
@@ -20,7 +24,7 @@ var (
 
 func SayHello(name string) string {
 	hystrix.ConfigureCommand("SayHello", hystrix.CommandConfig{
-		Timeout:               1000,
+		Timeout:               10000,
 		MaxConcurrentRequests: 100,
 		ErrorPercentThreshold: 25,
 	})
@@ -32,6 +36,7 @@ func SayHello(name string) string {
 		out=helloService.SayHello("123")
 		return nil
 	}, func(e error) error {
+		log.Println(e.Error())
 		out= "default"
 		return  nil
 	})
@@ -47,7 +52,7 @@ func main() {
 	rpc.InitRegister(zookeeper_address)
 	rpc.Create(&helloService)
 	//建立服务对象
-	service := rpc.CreateHTTPService()
+	service := hrpc.NewHTTPService()
 	serviceObj := &server.Hello2{ //实现接口
 		SayHello: SayHello,
 	}
@@ -55,5 +60,24 @@ func main() {
 	service.AddInstanceMethods(serviceObj)
 	//服务注册
 	rpc.StartRegister(&serviceObj, port)
-	http.ListenAndServe(":"+port, service)
+
+	_,tracer:=rpc.InitZipkin()
+	// create the HTTP Server Handler for the service
+	handler := NewHTTPHandler(tracer, service)
+	http.ListenAndServe(":"+port, handler)
+}
+
+// NewHTTPHandler returns a new HTTP handler our svc2.
+func NewHTTPHandler(tracer opentracing.Tracer, service *hrpc.HTTPService) http.Handler {
+	// Create the mux.
+	mux := http.NewServeMux()
+	// Create the Sum handler.
+	var sumHandler http.Handler
+	sumHandler = http.HandlerFunc(service.ServeHTTP)
+	// Wrap the Sum handler with our tracing middleware.
+	sumHandler = middleware.FromHTTPRequest(tracer, "Sum")(sumHandler)
+	// Wire up the mux.
+	mux.Handle("/", sumHandler)
+	// Return the mux.
+	return mux
 }
