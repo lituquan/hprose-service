@@ -17,7 +17,7 @@
 		<cxf.version>2.7.7</cxf.version>
 		<version.zookeeper>3.4.6</version.zookeeper>
 		<version.zkclient>0.4</version.zkclient>
-		<spring.version>3.2.18.release</spring.version>
+		<spring.version>5.3.19</spring.version>
 	</properties>
 
 	<dependencies>
